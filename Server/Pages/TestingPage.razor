@@ -1,0 +1,59 @@
+﻿@using System.Threading.Channels
+@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using Burkenyo.Iot.Shared;
+@implements IDisposable
+@inject ButtonPressEventProducer EventProducer
+
+<div class="pad">
+    <div id="a-left" class=@aLeftClasses />
+    <div id="a-right" class=@aRightClasses />
+    <div id="a-up" class=@aUpClasses />
+    <div id="a-down" class=@aDownClasses />
+
+    <div id="b-red" class=@bRedClasses />
+    <div id="b-yellow" class=@bYellowClasses />
+    <div id="b-green" class=@bGreenClasses />
+    <div id="b-blue" class=@bBlueClasses />
+</div>
+
+@code {
+    string aLeftClasses = "arrow";
+    string aRightClasses = "arrow";
+    string aUpClasses = "arrow";
+    string aDownClasses = "arrow";
+
+    string bRedClasses = "button";
+    string bYellowClasses = "button";
+    string bGreenClasses = "button";
+    string bBlueClasses = "button";
+
+    protected override Task OnInitializedAsync()
+    {
+        EventProducer.ButtonsPressed += ListenForButtonsAsync;
+
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        EventProducer.ButtonsPressed -= ListenForButtonsAsync;
+    }
+
+    Task ListenForButtonsAsync(ButtonInfo buttons) =>
+        InvokeAsync(() =>
+        {
+            aLeftClasses = buttons.Left ? "arrow pushed" : "arrow";
+            aRightClasses = buttons.Right ? "arrow pushed" : "arrow";
+            aUpClasses = buttons.Up ? "arrow pushed" : "arrow";
+            aDownClasses = buttons.Down ? "arrow pushed" : "arrow";
+
+            bRedClasses = buttons.Red ? "button pushed" : "button";
+            bYellowClasses = buttons.Yellow ? "button pushed" : "button";
+            bGreenClasses = buttons.Green ? "button pushed" : "button";
+            bBlueClasses = buttons.Blue ? "button pushed" : "button";
+
+            StateHasChanged();
+        });
+}

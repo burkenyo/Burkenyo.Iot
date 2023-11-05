@@ -1,0 +1,80 @@
+::deep {
+    --transition-time: 50ms;
+    --box-size: 80px;
+}
+
+.arrow {
+    width: 100%;
+    height: 100%;
+    background-image: url("/arrow.svg");
+    filter: none;
+    transition: filter var(--transition-time);
+}
+
+.button {
+    width: 85%;
+    height: 85%;
+    border-radius: 50%;
+    filter: none;
+    transition: filter var(--transition-time);
+}
+
+.pad {
+    margin: calc(var(--box-size) * 2) auto;
+    width: fit-content;
+    display: grid;
+    grid-template-areas:
+        ".      a-up   .       .     .     b-blue   ."
+        "a-left .      a-right .     b-red .        b-green"
+        ".      a-down .       .     .     b-yellow ."    ;
+    grid-template-columns:
+        repeat(3, var(--box-size)) calc(var(--box-size) * 2) repeat(3, var(--box-size));
+    grid-template-rows: repeat(3, var(--box-size)) ;
+    justify-items: center;
+    align-items: center;
+}
+
+#a-left {
+    grid-area: a-left;
+    transform: rotate(270deg);
+}
+
+#a-right {
+    grid-area: a-right;
+    transform: rotate(90deg);
+}
+
+#a-up {
+    grid-area: a-up;
+}
+
+#a-down {
+    grid-area: a-down;
+    transform: rotate(180deg);
+}
+
+#b-red {
+    grid-area: b-red;
+    background-color: #da2b2b;
+}
+
+#b-yellow {
+    grid-area: b-yellow;
+    background-color: #ffd700;
+}
+
+#b-green {
+    grid-area: b-green;
+    background-color: #2aa82a;
+}
+
+#b-blue {
+    grid-area: b-blue;
+    background-color: #1e90ff;
+}
+
+.pushed
+{
+    filter: brightness(250%) drop-shadow(0 0 calc(var(--box-size) / 4) #ddd);
+    transition: filter var(--transition-time);
+}
